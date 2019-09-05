@@ -1,11 +1,11 @@
 import React from 'react';
 // import { View, Text, StyleSheet } from 'react-native';
 
-import Login from './pages/Login';
+import Routes from './routes';
 
 export default function App(){
   return(
-    <Login />
+    <Routes />
 
     // a primeria chave indica que quero colocar javascript e a outra é um objeto do js
     // flex:1 - ocupe todo o espaço possivel
