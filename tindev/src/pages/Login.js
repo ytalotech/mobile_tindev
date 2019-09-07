@@ -27,7 +27,7 @@ export default function Login({ navigation }){
         //só aceita string ou numeric, se estiver em um vetor tenho que transformar em json
         await AsyncStorage.setItem('user', _id);
 
-        navigation.navigate('Main');
+        navigation.navigate('Main', { user: _id });
     }
 
     return (

@@ -1,48 +1,83 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import { View, Text, SafeAreaView, Image, StyleSheet, TouchableOpacity } from 'react-native';
+
+import api from '../services/api';
 
 import logo from '../assets/logo.png';
 import like from '../assets/like.png';
 import dislike from '../assets/dislike.png';
 
-export default function Main(){
+export default function Main({ navigation }){
+    const id = navigation.getParam('user');    
+    const [users, setUsers] = useState([]);
+
+    console.log(id);
+
+    useEffect(() => {
+        async function loadUsers() {
+            const response = await api.get('/devs', {
+                headers: {
+                    user: id,
+                }
+            });
+            setUsers(response.data);
+        }
+        loadUsers();
+    }, [id]);
+
+    async function handleLike(){
+        //estou pegando o primeiro usuario e armazenando o resto no ...rest
+        const [user, ...rest] = users; //[user] ira pegar a primeira posição do array
+
+        await api.post(`/devs/${ user._id }/likes`, null, {
+            headers: { user: id },
+        });
+
+        setUsers(rest);
+    }
+    async function handleDislike(){
+        const [user, ...rest] = users;
+
+        await api.post(`/devs/${ user._id }/dislikes`, null, {
+            headers: { user: id },
+        });
+        setUsers(rest);
+    }
+
+    async function handleLogout(){
+        await AsyncStorage.clear();
+
+        navigation.navigate('login');
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            <Image style={styles.logo} source={logo} />
+            <TouchableOpacity onPress={handleLogout}>
+                <Image style={styles.logo} source={logo} />
+            </TouchableOpacity>
 
             <View style={styles.cardsContainer}>
-                <View style={[styles.card, { zIndex: 3 }]}>
-                    {/* toda imagem vinda de uma url sem ser local deve ser setado o tamanho */}
-                    <Image style={styles.avatar} source={{ uri: 'https://avatars1.githubusercontent.com/u/54129629?v=4' }} />
-                    <View style={styles.footer}>
-                        <Text styles={styles.name}>Ytalo Lopes</Text>
-                        <Text style={styles.bio} numberOfLines={3} >CEO na Lopessoftec. Desenvolvedor web em PHP e aprendendo Javascript, reactJs, React Native, NodeJS,... Sempre em busca de novos conhecimentos.</Text>
-                    </View>
-                </View>
-
-                <View style={[styles.card, { zIndex: 2 }]}>
-                    {/* toda imagem vinda de uma url sem ser local deve ser setado o tamanho */}
-                    <Image style={styles.avatar} source={{ uri: 'https://avatars1.githubusercontent.com/u/54129629?v=4' }} />
-                    <View style={styles.footer}>
-                        <Text styles={styles.name}>Ytalo Lopes</Text>
-                        <Text style={styles.bio} numberOfLines={3} >CEO na Lopessoftec. Desenvolvedor web em PHP e aprendendo Javascript, reactJs, React Native, NodeJS,... Sempre em busca de novos conhecimentos.</Text>
-                    </View>
-                </View>
-
-                <View style={[styles.card, { zIndex: 1 }]}>
-                    {/* toda imagem vinda de uma url sem ser local deve ser setado o tamanho */}
-                    <Image style={styles.avatar} source={{ uri: 'https://avatars1.githubusercontent.com/u/54129629?v=4' }} />
-                    <View style={styles.footer}>
-                        <Text styles={styles.name}>Ytalo Lopes</Text>
-                        <Text style={styles.bio} numberOfLines={3} >CEO na Lopessoftec. Desenvolvedor web em PHP e aprendendo Javascript, reactJs, React Native, NodeJS,... Sempre em busca de novos conhecimentos.</Text>
-                    </View>
-                </View>
+                { users.length === 0
+                    ? <Text style={styles.empty}>Acabou :(</Text> 
+                    : (
+                        users.map((user, index) => (
+                            <View key={ user._id } style={[styles.card, { zIndex: users.length - index }]}>
+                            {/* toda imagem vinda de uma url sem ser local deve ser setado o tamanho */}
+                            <Image style={styles.avatar} source={{ uri: user.avatar }} />
+                            <View style={styles.footer}>
+                                <Text styles={styles.name}>{ user.name }</Text>
+                                <Text style={styles.bio} numberOfLines={3} >{ user.bio }</Text>
+                            </View>
+                        </View>
+                        ))
+                    )}
             </View>
             <View style={styles.buttonsContainer}>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleDislike}>
                     <Image source={dislike} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleLike}>
                     <Image source={like} />
                 </TouchableOpacity>
             </View>
@@ -60,6 +95,13 @@ const styles = StyleSheet.create({
 
     logo:{
         marginTop: 30
+    },
+
+    empty: {
+        alignSelf: 'center',
+        color: '#999',
+        fontSize: 24,
+        fontWeight: 'bold'
     },
 
     cardsContainer: {
