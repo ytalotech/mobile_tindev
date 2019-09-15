@@ -1,5 +1,10 @@
+import { YellowBox } from 'react-native';
 import React from 'react';
 // import { View, Text, StyleSheet } from 'react-native';
+
+YellowBox.ignoreWarnings([
+  'Unrecognized WebSocket' //devo colocar as duas primieroas palavras da info em amarelo
+]);
 
 import Routes from './routes';
 

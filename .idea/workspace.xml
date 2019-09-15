@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="50ea8585-cb7c-475a-841e-14ce7916a88c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tindev/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/tindev/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tindev/src/pages/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/tindev/src/pages/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tindev/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/tindev/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,7 +16,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="73" />
     <option name="y" value="50" />
     <option name="width" value="1174" />
@@ -25,8 +27,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -61,7 +63,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="73" y="50" width="1174" height="641" extended-state="0" />
+    <frame x="73" y="50" width="1174" height="641" extended-state="1" />
     <layout>
       <window_info id="Captures" order="0" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.3292789" />
